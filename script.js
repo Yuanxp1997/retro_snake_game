@@ -23,9 +23,15 @@ function draw() {
 }
 
 function drawSnake() {
-  snake.forEach((segment) => {
+  snake.forEach((segment, i) => {
     const snakeElement = createGameElement("div", "snake");
     setPosition(snakeElement, segment);
+    if (i === 0) {
+      snakeElement.classList.add("head");
+      snakeElement.classList.add(direction);
+      snakeElement.appendChild(createGameElement("div", "eye"));
+      snakeElement.appendChild(createGameElement("div", "eye"));
+    }
     board.appendChild(snakeElement);
   });
 }
@@ -143,7 +149,7 @@ function handleKeydown(event) {
       event.code === "KeyW" ||
       event.key === "W"
     ) {
-      if (direction !== "down" && lastDirection !== "down") {
+      if (lastDirection !== "down") {
         direction = "up";
       }
     } else if (
@@ -153,7 +159,7 @@ function handleKeydown(event) {
       event.code === "KeyS" ||
       event.key === "S"
     ) {
-      if (direction !== "up" && lastDirection !== "up") {
+      if (lastDirection !== "up") {
         direction = "down";
       }
     } else if (
@@ -163,7 +169,7 @@ function handleKeydown(event) {
       event.code === "KeyA" ||
       event.key === "A"
     ) {
-      if (direction !== "right" && lastDirection !== "right") {
+      if (lastDirection !== "right") {
         direction = "left";
       }
     } else if (
@@ -173,7 +179,7 @@ function handleKeydown(event) {
       event.code === "KeyD" ||
       event.key === "D"
     ) {
-      if (direction !== "left" && lastDirection !== "left") {
+      if (lastDirection !== "left") {
         direction = "right";
       }
     }

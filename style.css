@@ -79,9 +79,37 @@ body,
 
 .snake {
   border: #5a5a5a dotted 1px;
+  border-radius: 2px;
 }
 
 .food {
   background-color: #dedede;
   border: #999 solid 5px;
+  border-radius: 2px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.eye {
+  background-color: #dedede;
+  border: #999 solid 1px;
+  border-radius: 2px;
+  width: 4px;
+  height: 4px;
+  margin: 1.5px;
+}
+
+.down {
+  transform: rotate(180deg);
+}
+
+.left {
+  transform: rotate(270deg);
+}
+
+.right {
+  transform: rotate(90deg);
 }
