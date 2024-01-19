@@ -7,9 +7,9 @@ const gridSize = 20;
 let snake = [{ x: 10, y: 10 }];
 let food = generateFood();
 let gameInterval;
-const defaultGameSpeed = 300;
+const defaultGameSpeed = 350;
 let gameSpeed = defaultGameSpeed;
-const gameSpeedIncrement = 10;
+const gameSpeedIncrement = 1;
 let gameStarted = false;
 let score = 0;
 let highScore = 0;
@@ -78,7 +78,7 @@ function moveSnake() {
     currentScore.textContent = score.toString().padStart(3, "0");
     food = generateFood();
     clearInterval(gameInterval);
-    if (gameSpeed > 150) gameSpeed -= gameSpeedIncrement;
+    if (gameSpeed > 200) gameSpeed -= gameSpeedIncrement;
     gameInterval = setInterval(() => {
       moveSnake();
       if (checkCollision()) {
