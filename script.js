@@ -48,10 +48,20 @@ function drawFood() {
 }
 
 function generateFood() {
-  return {
-    y: Math.floor(Math.random() * gridSize) + 1,
-    x: Math.floor(Math.random() * gridSize) + 1,
-  };
+  let newFood;
+  do {
+    newFood = {
+      x: Math.floor(Math.random() * gridSize) + 1,
+      y: Math.floor(Math.random() * gridSize) + 1,
+    };
+  } while (isOnSnake(newFood));
+  return newFood;
+}
+
+function isOnSnake(position) {
+  return snake.some((segment) => {
+    return segment.x === position.x && segment.y === position.y;
+  });
 }
 
 function moveSnake() {
@@ -183,7 +193,6 @@ function gameOver() {
   logo.style.display = "block";
   gameStarted = false;
   gameSpeed = defaultGameSpeed;
-
   snake = [{ x: 10, y: 10 }];
   direction = "down";
 }
