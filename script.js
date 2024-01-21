@@ -4,12 +4,12 @@ const logo = document.querySelector(".logo");
 const currentScore = document.querySelector(".current");
 const highScoreElement = document.querySelector(".high");
 const gridSize = 20;
+const defaultGameSpeed = 350;
+const gameSpeedIncrement = 1;
 let snake = [{ x: 10, y: 10 }];
 let food = generateFood();
 let gameInterval;
-const defaultGameSpeed = 350;
 let gameSpeed = defaultGameSpeed;
-const gameSpeedIncrement = 1;
 let gameStarted = false;
 let score = 0;
 let highScore = 0;
@@ -71,6 +71,24 @@ function isOnSnake(position) {
 }
 
 function moveSnake() {
+  const newHead = generateNewHead();
+  snake.unshift(newHead);
+  if (ifSnakeAteFood(newHead)) {
+    score++;
+    currentScore.textContent = score.toString().padStart(3, "0");
+    food = generateFood();
+    clearInterval(gameInterval);
+    if (gameSpeed > 200) gameSpeed -= gameSpeedIncrement;
+    gameInterval = setInterval(() => {
+      moveSnake();
+      checkCollision() ? gameOver() : draw();
+    }, gameSpeed);
+  } else {
+    snake.pop();
+  }
+}
+
+function generateNewHead() {
   const head = snake[0];
   const newHead = { x: head.x, y: head.y };
   lastDirection = direction;
@@ -88,23 +106,14 @@ function moveSnake() {
       newHead.x++;
       break;
   }
-  snake.unshift(newHead);
+  return newHead;
+}
+
+function ifSnakeAteFood(newHead) {
   if (newHead.x === food.x && newHead.y === food.y) {
-    score++;
-    currentScore.textContent = score.toString().padStart(3, "0");
-    food = generateFood();
-    clearInterval(gameInterval);
-    if (gameSpeed > 200) gameSpeed -= gameSpeedIncrement;
-    gameInterval = setInterval(() => {
-      moveSnake();
-      if (checkCollision()) {
-        gameOver();
-      } else {
-        draw();
-      }
-    }, gameSpeed);
+    return true;
   } else {
-    snake.pop();
+    return false;
   }
 }
 
@@ -115,11 +124,7 @@ function startGame() {
   food = generateFood();
   gameInterval = setInterval(() => {
     moveSnake();
-    if (checkCollision()) {
-      gameOver();
-    } else {
-      draw();
-    }
+    checkCollision() ? gameOver() : draw();
   }, gameSpeed);
 }
 
